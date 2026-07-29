@@ -1,0 +1,132 @@
+@import '../variables';
+@import '../mixins';
+
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+  background-color: $color-bg-card;
+  border-bottom-left-radius: $radius-sm;
+  border-bottom-right-radius: $radius-sm;
+  font-family: $font-primary;
+  font-size: 14px;
+  color: $color-text-main;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 16px;
+  }
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select {
+  appearance: none;
+  background-color: rgba(33, 63, 125, 0.05);
+  border: none;
+  border-radius: $radius-sm;
+  padding: 8px 30px 8px 12px;
+  font-family: $font-primary;
+  font-size: 14px;
+  font-weight: $weight-semibold;
+  color: $color-secondary;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(33, 63, 125, 0.08);
+  }
+}
+
+.selectIcon {
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
+  color: $color-secondary;
+  display: flex;
+  align-items: center;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  @include mobile {
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.navBtn {
+  width: 32px;
+  height: 32px;
+  background-color: rgba(33, 63, 125, 0.05);
+  border: none;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-secondary;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(33, 63, 125, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.pagesList {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pageNumber {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  color: rgba(33, 63, 125, 0.6);
+  font-weight: $weight-regular;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+
+  &:hover:not(.active):not(.ellipsis) {
+    background-color: rgba(33, 63, 125, 0.03);
+    color: $color-secondary;
+  }
+}
+
+.active {
+  color: $color-secondary;
+  font-weight: $weight-bold;
+}
+
+.ellipsis {
+  cursor: default;
+  color: rgba(33, 63, 125, 0.4);
+}

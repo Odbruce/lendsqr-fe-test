@@ -1,0 +1,103 @@
+@import '../variables';
+@import '../mixins';
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.title {
+  font-family: $font-primary;
+  font-size: 24px;
+  font-weight: $weight-medium;
+  color: $color-secondary;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px;
+
+  @include xl-desktop {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background-color: $color-bg-card;
+  border: 1px solid rgba(33, 63, 125, 0.06);
+  border-radius: $radius-sm;
+  box-shadow: $shadow-sm;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+
+  @include tablet {
+    padding: 16px 20px;
+  }
+}
+
+.iconWrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconUsers {
+  background-color: rgba(223, 24, 255, 0.1);
+  color: rgb(223, 24, 255);
+}
+
+.iconActiveUsers {
+  background-color: rgba(87, 24, 255, 0.1);
+  color: rgb(87, 24, 255);
+}
+
+.iconLoanUsers {
+  background-color: rgba(245, 95, 68, 0.1);
+  color: rgb(245, 95, 68);
+}
+
+.iconSavingsUsers {
+  background-color: rgba(255, 51, 102, 0.1);
+  color: rgb(255, 51, 102);
+}
+
+.cardLabel {
+  font-family: $font-primary;
+  font-size: 12px;
+  font-weight: $weight-medium;
+  color: $color-text-main;
+  text-transform: uppercase;
+  margin-top: 14px;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.cardValue {
+  font-family: $font-primary;
+  font-size: 24px;
+  font-weight: $weight-semibold;
+  color: $color-secondary;
+}
+
+.tableSection {
+  background-color: $color-bg-card;
+  border: 1px solid rgba(33, 63, 125, 0.06);
+  border-radius: $radius-sm;
+  box-shadow: $shadow-sm;
+  width: 100%;
+}
