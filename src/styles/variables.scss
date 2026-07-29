@@ -1,0 +1,80 @@
+
+
+
+$color-primary: #39CDCC;
+$color-secondary: #213F7D;
+$color-text-main: #545F7D;
+$color-text-dark: #213F7D;
+$color-text-muted: #7A8C9E;
+$color-border: rgba(33, 63, 125, 0.1);
+$color-border-light: rgba(33, 63, 125, 0.05);
+
+
+$color-bg-page: #FBFBFB;
+$color-bg-card: #FFFFFF;
+$color-bg-sidebar: #FFFFFF;
+$color-bg-nav: #FFFFFF;
+$color-bg-input: #FFFFFF;
+
+
+$status-active-color: #39CD62;
+$status-active-bg: rgba(57, 205, 98, 0.06);
+
+$status-inactive-color: #545F7D;
+$status-inactive-bg: rgba(84, 95, 125, 0.06);
+
+$status-pending-color: #E9B200;
+$status-pending-bg: rgba(233, 178, 0, 0.06);
+
+$status-blacklisted-color: #E4033B;
+$status-blacklisted-bg: rgba(228, 3, 59, 0.06);
+
+
+$font-primary: 'Work Sans', sans-serif;
+$font-secondary: 'Inter', sans-serif;
+
+
+$font-xs: 0.75rem;
+$font-sm: 0.875rem;
+$font-md: 1rem;
+$font-lg: 1.125rem;
+$font-xl: 1.25rem;
+$font-2xl: 1.5rem;
+$font-3xl: 2rem;
+
+
+$weight-regular: 400;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+
+
+$spacing-xs: 0.5rem;
+$spacing-sm: 0.75rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+
+
+$navbar-height: 100px;
+$sidebar-width: 283px;
+
+
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 12px;
+
+$shadow-sm: 0px 2px 20px rgba(0, 0, 0, 0.04);
+$shadow-md: 3px 5px 20px rgba(0, 0, 0, 0.04);
+$shadow-lg: 0px 5px 25px rgba(0, 0, 0, 0.08);
+
+
+$transition-fast: 0.2s ease-in-out;
+$transition-normal: 0.3s ease-in-out;
+
+
+$breakpoint-sm: 480px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1440px;

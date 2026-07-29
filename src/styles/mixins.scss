@@ -1,0 +1,87 @@
+
+
+@import 'variables';
+
+
+@mixin mobile {
+  @media (max-width: #{$breakpoint-sm}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: #{$breakpoint-md}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: #{$breakpoint-lg}) {
+    @content;
+  }
+}
+
+@mixin xl-desktop {
+  @media (max-width: #{$breakpoint-xl}) {
+    @content;
+  }
+}
+
+
+@mixin respond-to-min($width) {
+  @media (min-width: #{$width}) {
+    @content;
+  }
+}
+
+
+@mixin respond-to-max($width) {
+  @media (max-width: #{$width}) {
+    @content;
+  }
+}
+
+
+@mixin custom-scrollbar($width: 6px, $track-color: transparent, $thumb-color: rgba(33, 63, 125, 0.2)) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: 10px;
+    
+    &:hover {
+      background: rgba(33, 63, 125, 0.4);
+    }
+  }
+}
+
+
+@mixin truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+
+@mixin card-layout {
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  box-shadow: $shadow-sm;
+  padding: $spacing-lg;
+}
