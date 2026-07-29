@@ -1,0 +1,33 @@
+@import '../variables';
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: $weight-regular;
+  border-radius: 100px;
+  text-transform: capitalize;
+  line-height: 1;
+}
+
+.active {
+  color: $status-active-color;
+  background-color: $status-active-bg;
+}
+
+.inactive {
+  color: $status-inactive-color;
+  background-color: $status-inactive-bg;
+}
+
+.pending {
+  color: $status-pending-color;
+  background-color: $status-pending-bg;
+}
+
+.blacklisted {
+  color: $status-blacklisted-color;
+  background-color: $status-blacklisted-bg;
+}
