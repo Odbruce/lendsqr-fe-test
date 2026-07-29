@@ -1,17 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryCache, QueryClientProvider } from "@tanstack/react-query";
 
 interface ReactQueryProviderProps {
   children: React.ReactNode;
 }
 
 export default function ReactQueryProvider({ children }: ReactQueryProviderProps) {
-
   const [queryClient] = useState(
     () =>
       new QueryClient({
+        queryCache: new QueryCache({
+          onError: (error) => {
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(
+                new CustomEvent("lendsqr-query-error", { detail: error.message || "Network error occurred" })
+              );
+            }
+          },
+        }),
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
@@ -28,3 +36,4 @@ export default function ReactQueryProvider({ children }: ReactQueryProviderProps
     </QueryClientProvider>
   );
 }
+

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 import Portal from "./Portal";
 import styles from "../../styles/uilib/Toast.module.scss";
 
@@ -47,6 +47,15 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const warning = useCallback((message: string, title?: string) => addToast("warning", message, title || "Warning"), [addToast]);
   const info = useCallback((message: string, title?: string) => addToast("info", message, title || "Info"), [addToast]);
 
+  useEffect(() => {
+    const handleQueryError = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      error(customEvent.detail || "Failed to fetch resource", "Network Failure");
+    };
+    window.addEventListener("lendsqr-query-error", handleQueryError);
+    return () => window.removeEventListener("lendsqr-query-error", handleQueryError);
+  }, [error]);
+
   return (
     <ToastContext.Provider value={{ toast: { success, error, warning, info } }}>
       {children}
@@ -76,3 +85,4 @@ export function useToast() {
   }
   return context.toast;
 }
+

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
 import "../styles/globals.scss";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import { ToastProvider } from "@/components/uilib/Toast";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -22,10 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={workSans.className}>
-        <ReactQueryProvider>
-          {children}
-        </ReactQueryProvider>
+        <ToastProvider>
+          <ReactQueryProvider>
+            {children}
+          </ReactQueryProvider>
+        </ToastProvider>
       </body>
     </html>
   );
 }
+
