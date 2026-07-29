@@ -1,0 +1,179 @@
+@import '../variables';
+@import '../mixins';
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $navbar-height;
+  background-color: $color-bg-nav;
+  border-bottom: 1px solid $color-border;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  z-index: 900;
+  box-shadow: 3px 0 20px rgba(0, 0, 0, 0.04);
+
+  @include tablet {
+    padding: 0 16px;
+    height: 70px;
+  }
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.menuBtn {
+  display: none;
+  color: $color-secondary;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+
+  @include tablet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  
+  @include tablet {
+    transform: scale(0.9);
+    transform-origin: left center;
+  }
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+  margin-left: 54px;
+  position: relative;
+
+  @include tablet {
+    display: none;
+  }
+}
+
+.searchInput {
+  width: 100%;
+  height: 40px;
+  border: 1px solid rgba(84, 95, 125, 0.15);
+  border-right: none;
+  border-top-left-radius: $radius-md;
+  border-bottom-left-radius: $radius-md;
+  padding: 0 16px;
+  font-size: $font-sm;
+  color: $color-text-dark;
+  background-color: $color-bg-input;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+
+  &::placeholder {
+    color: rgba(84, 95, 125, 0.6);
+  }
+}
+
+.searchBtn {
+  height: 40px;
+  width: 56px;
+  background-color: $color-primary;
+  color: #FFFFFF;
+  border: none;
+  border-top-right-radius: $radius-md;
+  border-bottom-right-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: darken($color-primary, 5%);
+  }
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  @include tablet {
+    gap: 16px;
+  }
+}
+
+.docsLink {
+  font-family: $font-secondary;
+  font-size: 16px;
+  color: $color-secondary;
+  text-decoration: underline;
+
+  &:hover {
+    color: lighten($color-secondary, 10%);
+  }
+
+  @include tablet {
+    display: none;
+  }
+}
+
+.bellButton {
+  color: $color-secondary;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  @include tablet {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.userName {
+  font-family: $font-primary;
+  font-weight: $weight-medium;
+  font-size: 16px;
+  color: $color-secondary;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  @include tablet {
+    display: none;
+  }
+}
