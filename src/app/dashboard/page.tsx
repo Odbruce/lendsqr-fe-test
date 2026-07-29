@@ -1,19 +1,24 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUsers } from "@/services/api";
 import { UsersIcon, PiggyBankIcon, BriefcaseIcon } from "@/components/uilib/Icons";
 import { SkeletonTable } from "@/components/uilib/Skeleton";
 import Table from "@/components/dashboard/Table";
 import Pagination from "@/components/dashboard/Pagination";
+import MobileRowDrawer from "@/components/dashboard/MobileRowDrawer";
 import styles from "@/styles/dashboard/Users.module.scss";
 
 function UsersDashboardContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
+
+  const [selectedDrawerUser, setSelectedDrawerUser] = useState<any | null>(null);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
   const page = Number(searchParams.get("page")) || 1;
   const limit = Number(searchParams.get("limit")) || 10;
@@ -64,15 +69,49 @@ function UsersDashboardContent() {
   };
 
   const handleRowClick = (user: any) => {
-    router.push(`/dashboard/users/${user.id}`);
+    if (window.innerWidth <= 768) {
+      setSelectedDrawerUser(user);
+      setIsMobileDrawerOpen(true);
+    } else {
+      router.push(`/dashboard/users/${user.id}`);
+    }
   };
 
-  const handleActionClick = (user: any, el: HTMLButtonElement) => {
-    console.log("Action click placeholder:", user, el);
+  const handleStatusChange = () => {
+    queryClient.invalidateQueries({ queryKey: ["users"] });
   };
 
-  const handleFilterClick = (colKey: string, el: HTMLButtonElement) => {
-    console.log("Filter click placeholder:", colKey, el);
+  const handleFilterApply = (filters: Record<string, string>) => {
+    updateUrlParams({
+      ...filters,
+      page: 1,
+    });
+  };
+
+  const handleFilterReset = () => {
+    updateUrlParams({
+      orgName: null,
+      userName: null,
+      email: null,
+      phoneNumber: null,
+      status: null,
+      date: null,
+      page: 1,
+    });
+  };
+
+  const handleBlacklistMobile = () => {
+    if (selectedDrawerUser) {
+      localStorage.setItem(`lendsqr_user_status_${selectedDrawerUser.id}`, "blacklisted");
+      handleStatusChange();
+    }
+  };
+
+  const handleActivateMobile = () => {
+    if (selectedDrawerUser) {
+      localStorage.setItem(`lendsqr_user_status_${selectedDrawerUser.id}`, "active");
+      handleStatusChange();
+    }
   };
 
   const totalUsers = data?.total || 0;
@@ -120,8 +159,9 @@ function UsersDashboardContent() {
             <Table
               users={data?.users || []}
               onRowClick={handleRowClick}
-              onActionClick={handleActionClick}
-              onFilterClick={handleFilterClick}
+              onFilterApply={handleFilterApply}
+              onFilterReset={handleFilterReset}
+              onStatusChange={handleStatusChange}
             />
             <Pagination
               page={page}
@@ -133,6 +173,16 @@ function UsersDashboardContent() {
           </>
         )}
       </div>
+
+      {selectedDrawerUser && (
+        <MobileRowDrawer
+          user={selectedDrawerUser}
+          isOpen={isMobileDrawerOpen}
+          onClose={() => setIsMobileDrawerOpen(false)}
+          onBlacklist={handleBlacklistMobile}
+          onActivate={handleActivateMobile}
+        />
+      )}
     </div>
   );
 }

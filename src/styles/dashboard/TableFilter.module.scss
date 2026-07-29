@@ -1,0 +1,24 @@
+@import '../variables';
+
+.filterDropdown {
+  position: absolute;
+  top: 45px;
+  left: 10px;
+  width: 292px;
+  background-color: $color-bg-card;
+  border: 1px solid rgba(84, 95, 125, 0.14);
+  border-radius: $radius-sm;
+  box-shadow: $shadow-lg;
+  padding: 20px;
+  z-index: 950;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-transform: none;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
