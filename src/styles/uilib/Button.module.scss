@@ -73,6 +73,17 @@
   }
 }
 
+.greyOutline {
+  background-color: transparent;
+  border-color: $status-inactive-color;
+  color: $status-inactive-color;
+
+  &:hover:not(:disabled) {
+    background-color: $status-inactive-bg;
+    color: $status-inactive-color;
+  }
+}
+
 .dangerOutline {
   background-color: transparent;
   border-color: $status-blacklisted-color;

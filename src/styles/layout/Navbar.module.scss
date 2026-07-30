@@ -47,7 +47,7 @@
 .logoWrapper {
   display: flex;
   align-items: center;
-  
+
   @include tablet {
     transform: scale(0.9);
     transform-origin: left center;
@@ -178,4 +178,3 @@
     display: none;
   }
 }
-

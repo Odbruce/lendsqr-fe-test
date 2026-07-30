@@ -132,7 +132,7 @@ export default function FilterDrawer({ isOpen, onClose, onFilter, onReset }: Fil
         </div>
 
         <div className={styles.footerActions}>
-          <Button type="button" variant="primaryOutline" size="md" fullWidth onClick={handleResetClick}>
+          <Button type="button" variant="greyOutline" size="md" fullWidth onClick={handleResetClick}>
             Reset
           </Button>
           <Button type="submit" variant="primary" size="md" fullWidth>

@@ -87,9 +87,8 @@ function UsersDashboardContent() {
     if (window.innerWidth <= 768) {
       setSelectedDrawerUser(user);
       setIsMobileDrawerOpen(true);
-    } else {
-      router.push(`/dashboard/users/${user.id}`);
     }
+
   };
 
   const handleStatusChange = () => {

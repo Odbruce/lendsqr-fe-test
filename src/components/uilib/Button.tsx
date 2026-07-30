@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "../../styles/uilib/Button.module.scss";
 
-type ButtonVariant = "primary" | "secondary" | "primaryOutline" | "dangerOutline" | "link" | "text";
+type ButtonVariant = "primary" | "secondary" | "primaryOutline" | "dangerOutline" | "greyOutline" | "link" | "text";
 type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -22,9 +22,8 @@ export default function Button({
   className = "",
   ...props
 }: ButtonProps) {
-  const buttonClass = `${styles.btn} ${styles[variant]} ${styles[size]} ${
-    fullWidth ? styles.wFull : ""
-  } ${className}`;
+  const buttonClass = `${styles.btn} ${styles[variant]} ${styles[size]} ${fullWidth ? styles.wFull : ""
+    } ${className}`;
 
   if (href) {
     return (
