@@ -2,10 +2,11 @@
 
 import React from "react";
 import Drawer from "../uilib/Drawer";
+
 import Badge from "../uilib/Badge";
 import Button from "../uilib/Button";
 import { User } from "@/services/api";
-import { formatNaira } from "@/utils/amount";
+import { formatUserDate } from "@/utils/date";
 import styles from "../../styles/dashboard/MobileRowDrawer.module.scss";
 
 interface MobileRowDrawerProps {
@@ -25,6 +26,15 @@ export default function MobileRowDrawer({
 }: MobileRowDrawerProps) {
   if (!user) return null;
 
+  const fields = [
+    { label: "Organization", value: user.orgName },
+    { label: "Username", value: user.userName },
+    { label: "Email", value: user.email },
+    { label: "Phone Number", value: user.phoneNumber },
+    { label: "Date Joined", value: formatUserDate(user.createdAt) },
+    { label: "Status", value: <Badge status={user.status} /> },
+  ];
+
   return (
     <Drawer isOpen={isOpen} onClose={onClose} position="bottom">
       <div className={styles.drawerContent}>
@@ -39,103 +49,17 @@ export default function MobileRowDrawer({
               {user.profile.firstName} {user.profile.lastName}
             </span>
             <span className={styles.userId}>ID: {user.id}</span>
-            <div style={{ marginTop: "6px" }}>
-              <Badge status={user.status} />
-            </div>
           </div>
         </div>
 
         <div className={styles.section}>
-          <h4 className={styles.sectionTitle}>Personal Information</h4>
           <div className={styles.grid}>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Phone Number</span>
-              <span className={styles.value}>{user.phoneNumber}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Email Address</span>
-              <span className={styles.value}>{user.email}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>BVN</span>
-              <span className={styles.value}>{user.profile.bvn}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Gender</span>
-              <span className={styles.value}>{user.profile.gender}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Marital Status</span>
-              <span className={styles.value}>{user.profile.maritalStatus}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Children</span>
-              <span className={styles.value}>{user.profile.children}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Residence Type</span>
-              <span className={styles.value}>{user.profile.residenceType}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Account Balance</span>
-              <span className={styles.value}>{formatNaira(user.profile.accountBalance)}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.section}>
-          <h4 className={styles.sectionTitle}>Education and Employment</h4>
-          <div className={styles.grid}>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Education Level</span>
-              <span className={styles.value}>{user.education.levelOfEducation}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Employment Status</span>
-              <span className={styles.value}>{user.education.employmentStatus}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Sector</span>
-              <span className={styles.value}>{user.education.sectorOfEmployment}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Duration</span>
-              <span className={styles.value}>{user.education.durationOfEmployment}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Monthly Income</span>
-              <span className={styles.value}>
-                {user.education.monthlyIncome
-                  ? `${formatNaira(user.education.monthlyIncome[0])} - ${formatNaira(
-                      user.education.monthlyIncome[1]
-                    )}`
-                  : "N/A"}
-              </span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Loan Repayment</span>
-              <span className={styles.value}>{formatNaira(user.education.loanRepayment)}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.section}>
-          <h4 className={styles.sectionTitle}>Guarantor</h4>
-          <div className={styles.grid}>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Full Name</span>
-              <span className={styles.value}>
-                {user.guarantor.firstName} {user.guarantor.lastName}
-              </span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Phone Number</span>
-              <span className={styles.value}>{user.guarantor.phoneNumber}</span>
-            </div>
-            <div className={styles.infoItem}>
-              <span className={styles.label}>Relationship</span>
-              <span className={styles.value}>{user.guarantor.relationship}</span>
-            </div>
+            {fields.map((field, idx) => (
+              <div key={idx} className={styles.infoItem}>
+                <span className={styles.label}>{field.label}</span>
+                <span className={styles.value}>{field.value}</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -143,7 +67,7 @@ export default function MobileRowDrawer({
           <Button href={`/dashboard/users/${user.id}`} variant="primary" fullWidth onClick={onClose}>
             View Full Details Page
           </Button>
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "10px", width: "100%" }}>
             <Button
               variant="dangerOutline"
               fullWidth
@@ -170,3 +94,4 @@ export default function MobileRowDrawer({
     </Drawer>
   );
 }
+

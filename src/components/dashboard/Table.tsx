@@ -21,7 +21,7 @@ export default function Table({
   onStatusChange,
 }: TableProps) {
   const [activeActionUserId, setActiveActionUserId] = useState<string | null>(null);
-
+  const [popoverAlignUpwards, setPopoverAlignUpwards] = useState(false);
 
   const columns = [
     { key: "orgName", label: "Organization", hideClass: styles.hideTablet },
@@ -34,6 +34,10 @@ export default function Table({
 
   const handleActionClick = (e: React.MouseEvent<HTMLButtonElement>, userId: string) => {
     e.stopPropagation();
+    const rect = e.currentTarget.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const popoverHeight = 160;
+    setPopoverAlignUpwards(spaceBelow < popoverHeight);
     setActiveActionUserId(activeActionUserId === userId ? null : userId);
   };
 
@@ -124,6 +128,7 @@ export default function Table({
                         onClose={() => setActiveActionUserId(null)}
                         onBlacklist={() => handleBlacklist(user.id)}
                         onActivate={() => handleActivate(user.id)}
+                        alignUpwards={popoverAlignUpwards}
                       />
                     )}
                   </td>

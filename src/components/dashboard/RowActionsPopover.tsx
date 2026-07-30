@@ -10,6 +10,7 @@ interface RowActionsPopoverProps {
   onClose: () => void;
   onBlacklist: () => void;
   onActivate: () => void;
+  alignUpwards?: boolean;
 }
 
 export default function RowActionsPopover({
@@ -17,11 +18,12 @@ export default function RowActionsPopover({
   onClose,
   onBlacklist,
   onActivate,
+  alignUpwards = false,
 }: RowActionsPopoverProps) {
   return (
     <>
-      <div className={styles.backdrop} onClick={onClose} />
-      <div className={styles.popover} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.backdrop} onClick={(e) => { e.stopPropagation(); onClose(); }} />
+      <div className={`${styles.popover} ${alignUpwards ? styles.alignUpwards : ""}`} onClick={(e) => e.stopPropagation()}>
         <Link href={`/dashboard/users/${userId}`} className={styles.item} onClick={onClose}>
           <span className={styles.icon}>
             <UserIcon size={16} />

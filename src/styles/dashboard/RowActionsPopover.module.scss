@@ -13,7 +13,13 @@
   z-index: 950;
   display: flex;
   flex-direction: column;
+
+  &.alignUpwards {
+    top: auto;
+    bottom: 25px;
+  }
 }
+
 
 .backdrop {
   position: fixed;
