@@ -124,6 +124,7 @@ function UsersDashboardContent() {
   const handleBlacklistMobile = () => {
     if (selectedDrawerUser) {
       localStorage.setItem(`lendsqr_user_status_${selectedDrawerUser.id}`, "blacklisted");
+      setSelectedDrawerUser({ ...selectedDrawerUser, status: "blacklisted" });
       handleStatusChange();
     }
   };
@@ -131,6 +132,7 @@ function UsersDashboardContent() {
   const handleActivateMobile = () => {
     if (selectedDrawerUser) {
       localStorage.setItem(`lendsqr_user_status_${selectedDrawerUser.id}`, "active");
+      setSelectedDrawerUser({ ...selectedDrawerUser, status: "active" });
       handleStatusChange();
     }
   };
