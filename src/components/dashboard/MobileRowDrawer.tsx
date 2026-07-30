@@ -40,7 +40,7 @@ export default function MobileRowDrawer({
       <div className={styles.drawerContent}>
         <div className={styles.header}>
           <img
-            src={user.profile.avatar || "https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/512/36.jpg"}
+            src={user.profile.avatar || "https://cdn.jsdelivr.gh/gh/faker-js/assets-person-portrait/female/512/36.jpg"}
             alt={`${user.profile.firstName} ${user.profile.lastName}`}
             className={styles.avatar}
           />
@@ -67,27 +67,31 @@ export default function MobileRowDrawer({
           <Button href={`/dashboard/users/${user.id}`} variant="primary" fullWidth onClick={onClose}>
             View Full Details Page
           </Button>
-          <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-            <Button
-              variant="dangerOutline"
-              fullWidth
-              onClick={() => {
-                onBlacklist();
-                onClose();
-              }}
-            >
-              Blacklist
-            </Button>
-            <Button
-              variant="primaryOutline"
-              fullWidth
-              onClick={() => {
-                onActivate();
-                onClose();
-              }}
-            >
-              Activate
-            </Button>
+          <div style={{ display: "flex", gap: "10px", width: "100%", marginTop: "12px" }}>
+            {user.status !== "blacklisted" && (
+              <Button
+                variant="dangerOutline"
+                fullWidth
+                onClick={() => {
+                  onBlacklist();
+                  onClose();
+                }}
+              >
+                Blacklist
+              </Button>
+            )}
+            {user.status !== "active" && (
+              <Button
+                variant="primaryOutline"
+                fullWidth
+                onClick={() => {
+                  onActivate();
+                  onClose();
+                }}
+              >
+                Activate
+              </Button>
+            )}
           </div>
         </div>
       </div>

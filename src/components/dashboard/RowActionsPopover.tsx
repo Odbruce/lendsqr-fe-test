@@ -7,6 +7,7 @@ import styles from "../../styles/dashboard/RowActionsPopover.module.scss";
 
 interface RowActionsPopoverProps {
   userId: string;
+  status: string;
   onClose: () => void;
   onBlacklist: () => void;
   onActivate: () => void;
@@ -15,6 +16,7 @@ interface RowActionsPopoverProps {
 
 export default function RowActionsPopover({
   userId,
+  status,
   onClose,
   onBlacklist,
   onActivate,
@@ -30,32 +32,36 @@ export default function RowActionsPopover({
           </span>
           View Details
         </Link>
-        <button
-          type="button"
-          className={styles.item}
-          onClick={() => {
-            onBlacklist();
-            onClose();
-          }}
-        >
-          <span className={styles.icon}>
-            <UserXIcon size={16} />
-          </span>
-          Blacklist User
-        </button>
-        <button
-          type="button"
-          className={styles.item}
-          onClick={() => {
-            onActivate();
-            onClose();
-          }}
-        >
-          <span className={styles.icon}>
-            <UserCheckIcon size={16} />
-          </span>
-          Activate User
-        </button>
+        {status !== "blacklisted" && (
+          <button
+            type="button"
+            className={styles.item}
+            onClick={() => {
+              onBlacklist();
+              onClose();
+            }}
+          >
+            <span className={styles.icon}>
+              <UserXIcon size={16} />
+            </span>
+            Blacklist User
+          </button>
+        )}
+        {status !== "active" && (
+          <button
+            type="button"
+            className={styles.item}
+            onClick={() => {
+              onActivate();
+              onClose();
+            }}
+          >
+            <span className={styles.icon}>
+              <UserCheckIcon size={16} />
+            </span>
+            Activate User
+          </button>
+        )}
       </div>
     </>
   );

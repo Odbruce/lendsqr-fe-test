@@ -12,7 +12,10 @@ const workSans = Work_Sans({
 
 export const metadata: Metadata = {
   title: "Lendsqr Admin Portal",
-  description: "Lendsqr back-office administration panel for managing users and organization operations.",
+  description: "Lendsqr back-office administration panel for managing users, organization operations, loan portfolios, and savings accounts.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

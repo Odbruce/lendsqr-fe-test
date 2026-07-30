@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Badge from "../uilib/Badge";
 
 import { FilterIcon, MoreVerticalIcon } from "../uilib/Icons";
@@ -22,6 +22,8 @@ export default function Table({
 }: TableProps) {
   const [activeActionUserId, setActiveActionUserId] = useState<string | null>(null);
   const [popoverAlignUpwards, setPopoverAlignUpwards] = useState(false);
+  const [showPinShadow, setShowPinShadow] = useState(false);
+  const tableContainerRef = useRef<HTMLDivElement>(null);
 
   const columns = [
     { key: "orgName", label: "Organization", hideClass: styles.hideTablet },
@@ -35,9 +37,15 @@ export default function Table({
   const handleActionClick = (e: React.MouseEvent<HTMLButtonElement>, userId: string) => {
     e.stopPropagation();
     const rect = e.currentTarget.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - rect.bottom;
+    const containerRect = tableContainerRef.current?.getBoundingClientRect();
     const popoverHeight = 160;
-    setPopoverAlignUpwards(spaceBelow < popoverHeight);
+    if (containerRect) {
+      const spaceBelow = containerRect.bottom - rect.bottom;
+      setPopoverAlignUpwards(spaceBelow < popoverHeight);
+    } else {
+      const spaceBelow = window.innerHeight - rect.bottom;
+      setPopoverAlignUpwards(spaceBelow < popoverHeight);
+    }
     setActiveActionUserId(activeActionUserId === userId ? null : userId);
   };
 
@@ -64,8 +72,28 @@ export default function Table({
     onStatusChange();
   };
 
+  const handleScroll = () => {
+    const container = tableContainerRef.current;
+    if (container) {
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+      setShowPinShadow(maxScrollLeft > 0 && container.scrollLeft < maxScrollLeft - 4);
+    }
+  };
+
+  useEffect(() => {
+    handleScroll();
+    window.addEventListener("resize", handleScroll);
+    return () => {
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [users]);
+
   return (
-    <div className={styles.tableContainer}>
+    <div
+      className={`${styles.tableContainer} ${showPinShadow ? styles.hasScrollShadow : ""}`}
+      ref={tableContainerRef}
+      onScroll={handleScroll}
+    >
       <table className={styles.table}>
         <thead>
           <tr>
@@ -76,7 +104,7 @@ export default function Table({
                 </div>
               </th>
             ))}
-            <th className={`${styles.th} ${styles.hideMobile}`}></th>
+            <th className={`${styles.th} ${styles.actionHeader} ${styles.hideMobile}`}></th>
           </tr>
         </thead>
         <tbody>
@@ -113,7 +141,7 @@ export default function Table({
                   <td className={styles.td}>
                     <Badge status={currentStatus} />
                   </td>
-                  <td className={`${styles.td} ${styles.actionCell} ${styles.hideMobile}`}>
+                  <td className={`${styles.td} ${styles.actionCell} ${activeActionUserId === user.id ? styles.activeActionCell : ""} ${styles.hideMobile}`}>
                     <button
                       className={styles.actionBtn}
                       onClick={(e) => handleActionClick(e, user.id)}
@@ -125,6 +153,7 @@ export default function Table({
                     {activeActionUserId === user.id && (
                       <RowActionsPopover
                         userId={user.id}
+                        status={currentStatus}
                         onClose={() => setActiveActionUserId(null)}
                         onBlacklist={() => handleBlacklist(user.id)}
                         onActivate={() => handleActivate(user.id)}

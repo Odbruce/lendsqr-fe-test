@@ -88,12 +88,16 @@ export default function UserDetailsPage({ params }: PageProps) {
       <div className={styles.headerRow}>
         <h1 className={styles.title}>User Details</h1>
         <div className={styles.actions}>
-          <Button variant="dangerOutline" onClick={blacklist}>
-            Blacklist User
-          </Button>
-          <Button variant="primaryOutline" onClick={activate}>
-            Activate User
-          </Button>
+          {user.status !== "blacklisted" && (
+            <Button variant="dangerOutline" onClick={blacklist}>
+              Blacklist User
+            </Button>
+          )}
+          {user.status !== "active" && (
+            <Button variant="primaryOutline" onClick={activate}>
+              Activate User
+            </Button>
+          )}
         </div>
       </div>
 
@@ -132,6 +136,20 @@ export default function UserDetailsPage({ params }: PageProps) {
               {user.profile.accountNumber}/{user.profile.bankName}
             </span>
           </div>
+        </div>
+
+        <div className={styles.tabsDropdownWrapper}>
+          <select
+            value={activeTab}
+            onChange={(e) => handleTabChange(e.target.value)}
+            className={styles.tabsDropdown}
+          >
+            {tabs.map((tab) => (
+              <option key={tab.key} value={tab.key}>
+                {tab.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className={styles.tabsList}>
