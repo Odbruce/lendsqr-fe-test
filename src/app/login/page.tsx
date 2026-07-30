@@ -17,9 +17,13 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("lendsqr_session_token");
-    if (token) {
-      router.push("/dashboard");
+    try {
+      const token = localStorage.getItem("lendsqr_session_token");
+      if (token) {
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      console.error("Storage access failed:", err);
     }
   }, [router]);
 
@@ -63,12 +67,12 @@ export default function LoginPage() {
             <rect x="255" y="160" width="50" height="50" rx="4" fill="#545F7D" opacity="0.8" />
             <polygon points="340,140 370,190 310,190" fill="#E4033B" opacity="0.7" />
             <circle cx="340" cy="225" r="30" fill="#E9B200" />
-            
+
             <circle cx="80" cy="180" r="16" fill="#F3FCF6" />
             <path d="M70,180 Q80,165 90,180" stroke="#39CD62" strokeWidth="2" fill="none" />
-            
+
             <path d="M110,150 Q115,160 120,150" stroke="#213F7D" strokeWidth="2" fill="none" />
-            
+
             <rect x="130" y="140" width="30" height="70" rx="15" fill="#39CDCC" />
             <circle cx="145" cy="120" r="12" fill="#213F7D" opacity="0.2" />
             <path d="M140,210 L135,270 L155,270 L150,210" fill="#E9B200" />
@@ -79,7 +83,7 @@ export default function LoginPage() {
 
       <div className={styles.rightPanel}>
         <div className={styles.formBox}>
-          <div className={styles.logoWrapper} style={{ display: "none" }}>
+          <div className={styles.logoWrapper}>
             <Logo />
           </div>
           <h1 className={styles.title}>Welcome!</h1>
