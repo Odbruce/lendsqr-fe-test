@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+
+import { usePathname, useRouter } from "next/navigation";
 import {
   BriefcaseIcon,
   ChevronDownIcon,
@@ -23,8 +24,16 @@ import styles from "../../styles/layout/Sidebar.module.scss";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    localStorage.removeItem("lendsqr_session_token");
+    router.push("/login");
+  };
 
   const isUsersActive = pathname === "/dashboard" || pathname.startsWith("/dashboard/users");
+
 
   return (
     <aside className={styles.sidebar}>
@@ -180,7 +189,7 @@ export default function Sidebar() {
       </div>
 
       <div className={styles.logoutSection}>
-        <Link href="/login" className={styles.navItem}>
+        <Link href="/login" className={styles.navItem} onClick={handleLogout}>
           <span className={styles.icon}>
             <LogOutIcon size={16} />
           </span>
@@ -188,6 +197,7 @@ export default function Sidebar() {
         </Link>
         <div className={styles.version}>v1.2.0</div>
       </div>
+
     </aside>
   );
 }
