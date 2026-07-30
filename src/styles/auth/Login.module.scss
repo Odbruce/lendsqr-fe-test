@@ -12,7 +12,9 @@
 
 .leftPanel {
   width: 50%;
-  padding: 60px 80px;
+  padding: 60px 0px;
+  // padding: 60px 80px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -30,6 +32,7 @@
 
 .logoWrapper {
   margin-bottom: 40px;
+  padding-left: 80px;
 }
 
 .illustrationWrapper {
@@ -37,11 +40,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   svg {
     max-width: 100%;
     height: auto;
   }
+
+
+
+}
+
+.videoPlayer {
+  width: 100%;
+  height: auto;
+  // object-fit: cover;
 }
 
 .rightPanel {
