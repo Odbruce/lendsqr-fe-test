@@ -36,12 +36,13 @@
   cursor: pointer;
   padding: 4px;
 
-  @include tablet {
+  @include desktop {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 }
+
 
 .logoWrapper {
   display: flex;
@@ -61,7 +62,7 @@
   margin-left: 54px;
   position: relative;
 
-  @include tablet {
+  @include desktop {
     display: none;
   }
 }
@@ -112,7 +113,7 @@
   align-items: center;
   gap: 30px;
 
-  @include tablet {
+  @include desktop {
     gap: 16px;
   }
 }
@@ -127,7 +128,7 @@
     color: lighten($color-secondary, 10%);
   }
 
-  @include tablet {
+  @include desktop {
     display: none;
   }
 }
@@ -158,7 +159,7 @@
   border-radius: 50%;
   object-fit: cover;
 
-  @include tablet {
+  @include desktop {
     width: 36px;
     height: 36px;
   }
@@ -173,7 +174,8 @@
   align-items: center;
   gap: 6px;
 
-  @include tablet {
+  @include desktop {
     display: none;
   }
 }
+

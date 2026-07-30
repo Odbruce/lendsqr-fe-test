@@ -4,7 +4,7 @@
 .pageContainer {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
 }
 
 .title {
@@ -19,8 +19,9 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 26px;
 
-  @include xl-desktop {
+  @include desktop {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 
   @include tablet {
@@ -32,6 +33,8 @@
     grid-template-columns: 1fr;
   }
 }
+
+
 
 .card {
   background-color: $color-bg-card;

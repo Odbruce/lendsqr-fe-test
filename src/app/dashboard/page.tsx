@@ -3,13 +3,20 @@
 import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchUsers } from "@/services/api";
-import { UsersIcon, PiggyBankIcon, BriefcaseIcon } from "@/components/uilib/Icons";
+import { fetchUsers, fetchUserStats } from "@/services/api";
 import { SkeletonTable } from "@/components/uilib/Skeleton";
 import Table from "@/components/dashboard/Table";
 import Pagination from "@/components/dashboard/Pagination";
 import MobileRowDrawer from "@/components/dashboard/MobileRowDrawer";
+import TableControls from "@/components/dashboard/TableControls";
+import FilterDrawer from "@/components/dashboard/FilterDrawer";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import { downloadUsersCSV } from "@/utils/csv";
 import styles from "@/styles/dashboard/Users.module.scss";
+
+
+
+
 
 function UsersDashboardContent() {
   const router = useRouter();
@@ -19,6 +26,8 @@ function UsersDashboardContent() {
 
   const [selectedDrawerUser, setSelectedDrawerUser] = useState<any | null>(null);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
 
   const page = Number(searchParams.get("page")) || 1;
   const limit = Number(searchParams.get("limit")) || 10;
@@ -46,9 +55,15 @@ function UsersDashboardContent() {
       }),
   });
 
+  const { data: stats } = useQuery({
+    queryKey: ["stats"],
+    queryFn: fetchUserStats,
+  });
+
+
   const updateUrlParams = (newParams: Record<string, string | number | undefined | null>) => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     Object.entries(newParams).forEach(([key, val]) => {
       if (val === undefined || val === null || val === "") {
         params.delete(key);
@@ -80,6 +95,13 @@ function UsersDashboardContent() {
   const handleStatusChange = () => {
     queryClient.invalidateQueries({ queryKey: ["users"] });
   };
+
+  const handleDownloadCSV = () => {
+    if (data?.users) {
+      downloadUsersCSV(data.users);
+    }
+  };
+
 
   const handleFilterApply = (filters: Record<string, string>) => {
     updateUrlParams({
@@ -118,38 +140,13 @@ function UsersDashboardContent() {
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.title}>Users</h1>
+      <DashboardHeader stats={stats} totalUsers={totalUsers} />
 
-      <div className={styles.cardsGrid}>
-        <div className={styles.card}>
-          <div className={`${styles.iconWrapper} ${styles.iconUsers}`}>
-            <UsersIcon size={20} />
-          </div>
-          <span className={styles.cardLabel}>Users</span>
-          <span className={styles.cardValue}>{totalUsers.toLocaleString()}</span>
-        </div>
-        <div className={styles.card}>
-          <div className={`${styles.iconWrapper} ${styles.iconActiveUsers}`}>
-            <UsersIcon size={20} />
-          </div>
-          <span className={styles.cardLabel}>Active Users</span>
-          <span className={styles.cardValue}>{(totalUsers * 0.4).toFixed(0)}</span>
-        </div>
-        <div className={styles.card}>
-          <div className={`${styles.iconWrapper} ${styles.iconLoanUsers}`}>
-            <BriefcaseIcon size={20} />
-          </div>
-          <span className={styles.cardLabel}>Users with Loans</span>
-          <span className={styles.cardValue}>{(totalUsers * 0.15).toFixed(0)}</span>
-        </div>
-        <div className={styles.card}>
-          <div className={`${styles.iconWrapper} ${styles.iconSavingsUsers}`}>
-            <PiggyBankIcon size={20} />
-          </div>
-          <span className={styles.cardLabel}>Users with Savings</span>
-          <span className={styles.cardValue}>{(totalUsers * 0.65).toFixed(0)}</span>
-        </div>
-      </div>
+
+      <TableControls
+        onFilterToggle={() => setIsFilterOpen(true)}
+        onDownloadCSV={handleDownloadCSV}
+      />
 
       <div className={styles.tableSection}>
         {isLoading ? (
@@ -159,8 +156,6 @@ function UsersDashboardContent() {
             <Table
               users={data?.users || []}
               onRowClick={handleRowClick}
-              onFilterApply={handleFilterApply}
-              onFilterReset={handleFilterReset}
               onStatusChange={handleStatusChange}
             />
             <Pagination
@@ -173,6 +168,18 @@ function UsersDashboardContent() {
           </>
         )}
       </div>
+
+      <FilterDrawer
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        onFilter={(filters) => {
+          handleFilterApply(filters);
+        }}
+        onReset={() => {
+          handleFilterReset();
+        }}
+      />
+
 
       {selectedDrawerUser && (
         <MobileRowDrawer

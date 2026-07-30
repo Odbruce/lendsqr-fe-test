@@ -145,3 +145,19 @@ export async function fetchUserById(id: string): Promise<User> {
   }
   return response.json();
 }
+
+export interface UserStats {
+  users: number;
+  activeUsers: number;
+  usersWithLoans: number;
+  usersWithSavings: number;
+}
+
+export async function fetchUserStats(): Promise<UserStats> {
+  const response = await fetch(`${API_BASE_URL}/stats`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch user stats: ${response.statusText}`);
+  }
+  return response.json();
+}
+

@@ -20,7 +20,7 @@
 .sidebarWrapper {
   display: block;
 
-  @include tablet {
+  @include desktop {
     display: none;
   }
 }
@@ -32,13 +32,20 @@
   background-color: $color-bg-page;
   min-height: calc(100vh - #{$navbar-height});
   overflow-x: hidden;
+  min-width: 0;
+
+  @include desktop {
+    margin-left: 0;
+    padding: 30px 20px;
+  }
 
   @include tablet {
-    margin-left: 0;
     padding: 24px 16px;
     min-height: calc(100vh - 70px);
   }
 }
+
+
 
 .mobileSidebarContainer {
   width: 100%;
