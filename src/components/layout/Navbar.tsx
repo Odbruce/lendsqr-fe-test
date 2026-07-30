@@ -46,11 +46,11 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
         <div className={styles.userProfile}>
           <img
             src="https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/female/512/36.jpg"
-            alt="Adedeji profile"
+            alt="Laura profile"
             className={styles.avatar}
           />
           <span className={styles.userName}>
-            Adedeji
+            Laura
             <ChevronDownIcon size={10} />
           </span>
         </div>
