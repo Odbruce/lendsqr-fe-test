@@ -5,22 +5,11 @@ import Link from "next/link";
 
 import { usePathname, useRouter } from "next/navigation";
 import {
-  BriefcaseIcon,
+
   ChevronDownIcon,
-  HomeIcon,
-  UsersIcon,
-  HandshakeIcon,
-  ScalesIcon,
-  PiggyBankIcon,
-  RequestIcon,
-  UserCheckIcon,
-  UserXIcon,
-  PercentIcon,
-  ClipboardListIcon,
-  SlidersIcon,
-  LogOutIcon,
 } from "../uilib/Icons";
 import styles from "../../styles/layout/Sidebar.module.scss";
+import { BarChartIcon, BriefcaseIcon, ClipboardListIcon, DoubleUsersIcon, GalaxyIcon, GroupUsersIcon, HandshakeIcon, HomeIcon, LogOutIcon, MultiSliderIcon, PercentIcon, PiggyBankIcon, RequestIcon, SackIcon, SavingHouseIcon, ScrollIcon, StackedCoinIcon, TransactIcon, UserCheckIcon, UserGearIcon, UserXIcon, WheelIcon } from "../assets/sideBar";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -60,25 +49,25 @@ export default function Sidebar() {
           className={`${styles.navItem} ${isUsersActive ? styles.active : ""}`}
         >
           <span className={styles.icon}>
-            <UsersIcon size={16} />
+            <DoubleUsersIcon size={16} />
           </span>
           Users
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <UsersIcon size={16} />
+            <GroupUsersIcon size={16} />
           </span>
           Guarantors
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <HandshakeIcon size={16} />
+            <SackIcon size={16} />
           </span>
           Loans
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <ScalesIcon size={16} />
+            <HandshakeIcon size={16} />
           </span>
           Decision Models
         </Link>
@@ -124,43 +113,43 @@ export default function Sidebar() {
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <PiggyBankIcon size={16} />
+            <SavingHouseIcon size={16} />
           </span>
           Savings Products
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <PercentIcon size={16} />
+            <StackedCoinIcon size={16} />
           </span>
           Fees and Charges
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <ClipboardListIcon size={16} />
+            <TransactIcon size={16} />
           </span>
           Transactions
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <SlidersIcon size={16} />
+            <GalaxyIcon size={16} />
           </span>
           Services
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <UsersIcon size={16} />
+            <UserGearIcon size={16} />
           </span>
           Service Account
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <ClipboardListIcon size={16} />
+            <ScrollIcon size={16} />
           </span>
           Settlements
         </Link>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <SlidersIcon size={16} />
+            <BarChartIcon size={16} />
           </span>
           Reports
         </Link>
@@ -170,7 +159,7 @@ export default function Sidebar() {
         <h3 className={styles.sectionHeader}>Settings</h3>
         <Link href="#" className={styles.navItem}>
           <span className={styles.icon}>
-            <SlidersIcon size={16} />
+            <MultiSliderIcon size={16} />
           </span>
           Preferences
         </Link>
@@ -185,6 +174,12 @@ export default function Sidebar() {
             <ClipboardListIcon size={16} />
           </span>
           Audit Logs
+        </Link>
+        <Link href="#" className={styles.navItem}>
+          <span className={styles.icon}>
+            <WheelIcon size={16} />
+          </span>
+          System Messages
         </Link>
       </div>
 

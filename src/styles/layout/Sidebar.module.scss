@@ -34,7 +34,7 @@
   font-family: $font-primary;
   font-size: 16px;
   cursor: pointer;
-  
+
   span {
     display: flex;
     align-items: center;
@@ -46,6 +46,10 @@
 
 .navSection {
   margin-bottom: 30px;
+
+  .navItem:not(.active) svg {
+    opacity: 0.4
+  }
 
   &:last-of-type {
     margin-bottom: 60px;
@@ -88,7 +92,7 @@
   background-color: rgba(57, 205, 204, 0.06);
   border-left-color: $color-primary;
   font-weight: $weight-medium;
-  
+
   &:hover {
     background-color: rgba(57, 205, 204, 0.08);
   }

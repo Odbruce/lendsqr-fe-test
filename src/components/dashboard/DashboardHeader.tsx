@@ -1,7 +1,7 @@
-import React from "react";
-import { UsersIcon, PiggyBankIcon, BriefcaseIcon } from "../uilib/Icons";
+
 import { UserStats } from "@/services/api";
 import styles from "../../styles/dashboard/Users.module.scss";
+import { GroupUsersIcon, ReceiptStackIcon, StackedCoinIcon, UsersIcon } from "../assets/userOverview";
 
 interface DashboardHeaderProps {
   stats?: UserStats;
@@ -15,36 +15,30 @@ export default function DashboardHeader({ stats, totalUsers }: DashboardHeaderPr
 
       <div className={styles.cardsGrid}>
         <div className={styles.card}>
-          <div className={`${styles.iconWrapper} ${styles.iconUsers}`}>
-            <UsersIcon size={20} />
-          </div>
+          <UsersIcon />
           <span className={styles.cardLabel}>Users</span>
           <span className={styles.cardValue}>
             {(stats?.users ?? totalUsers).toLocaleString()}
           </span>
         </div>
         <div className={styles.card}>
-          <div className={`${styles.iconWrapper} ${styles.iconActiveUsers}`}>
-            <UsersIcon size={20} />
-          </div>
+          <GroupUsersIcon />
           <span className={styles.cardLabel}>Active Users</span>
           <span className={styles.cardValue}>
             {(stats?.activeUsers ?? 0).toLocaleString()}
           </span>
         </div>
         <div className={styles.card}>
-          <div className={`${styles.iconWrapper} ${styles.iconLoanUsers}`}>
-            <BriefcaseIcon size={20} />
-          </div>
+
+          <ReceiptStackIcon />
+
           <span className={styles.cardLabel}>Users with Loans</span>
           <span className={styles.cardValue}>
             {(stats?.usersWithLoans ?? 0).toLocaleString()}
           </span>
         </div>
         <div className={styles.card}>
-          <div className={`${styles.iconWrapper} ${styles.iconSavingsUsers}`}>
-            <PiggyBankIcon size={20} />
-          </div>
+          <StackedCoinIcon />
           <span className={styles.cardLabel}>Users with Savings</span>
           <span className={styles.cardValue}>
             {(stats?.usersWithSavings ?? 0).toLocaleString()}

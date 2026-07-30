@@ -1,6 +1,7 @@
 import React from "react";
-import { FilterIcon, DownloadIcon } from "../uilib/Icons";
+import { DownloadIcon } from "../uilib/Icons";
 import styles from "../../styles/dashboard/TableControls.module.scss";
+import { FilterIcon } from "../assets/userOverview";
 
 interface TableControlsProps {
   onFilterToggle: () => void;

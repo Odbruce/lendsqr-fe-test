@@ -21,7 +21,7 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
           <HamburgerIcon size={24} />
         </button>
         <Link href="/dashboard" className={styles.logoWrapper}>
-          <Logo />
+          <Logo width={144.8} height={25} />
         </Link>
       </div>
 
