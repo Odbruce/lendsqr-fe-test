@@ -3,13 +3,14 @@
 import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchUsers } from "@/services/api";
+import { fetchUsers, fetchUserStats } from "@/services/api";
 import { UsersIcon, PiggyBankIcon, BriefcaseIcon } from "@/components/uilib/Icons";
 import { SkeletonTable } from "@/components/uilib/Skeleton";
 import Table from "@/components/dashboard/Table";
 import Pagination from "@/components/dashboard/Pagination";
 import MobileRowDrawer from "@/components/dashboard/MobileRowDrawer";
 import styles from "@/styles/dashboard/Users.module.scss";
+
 
 function UsersDashboardContent() {
   const router = useRouter();
@@ -46,9 +47,15 @@ function UsersDashboardContent() {
       }),
   });
 
+  const { data: stats } = useQuery({
+    queryKey: ["stats"],
+    queryFn: fetchUserStats,
+  });
+
+
   const updateUrlParams = (newParams: Record<string, string | number | undefined | null>) => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     Object.entries(newParams).forEach(([key, val]) => {
       if (val === undefined || val === null || val === "") {
         params.delete(key);
@@ -126,30 +133,39 @@ function UsersDashboardContent() {
             <UsersIcon size={20} />
           </div>
           <span className={styles.cardLabel}>Users</span>
-          <span className={styles.cardValue}>{totalUsers.toLocaleString()}</span>
+          <span className={styles.cardValue}>
+            {(stats?.users ?? totalUsers).toLocaleString()}
+          </span>
         </div>
         <div className={styles.card}>
           <div className={`${styles.iconWrapper} ${styles.iconActiveUsers}`}>
             <UsersIcon size={20} />
           </div>
           <span className={styles.cardLabel}>Active Users</span>
-          <span className={styles.cardValue}>{(totalUsers * 0.4).toFixed(0)}</span>
+          <span className={styles.cardValue}>
+            {(stats?.activeUsers ?? 0).toLocaleString()}
+          </span>
         </div>
         <div className={styles.card}>
           <div className={`${styles.iconWrapper} ${styles.iconLoanUsers}`}>
             <BriefcaseIcon size={20} />
           </div>
           <span className={styles.cardLabel}>Users with Loans</span>
-          <span className={styles.cardValue}>{(totalUsers * 0.15).toFixed(0)}</span>
+          <span className={styles.cardValue}>
+            {(stats?.usersWithLoans ?? 0).toLocaleString()}
+          </span>
         </div>
         <div className={styles.card}>
           <div className={`${styles.iconWrapper} ${styles.iconSavingsUsers}`}>
             <PiggyBankIcon size={20} />
           </div>
           <span className={styles.cardLabel}>Users with Savings</span>
-          <span className={styles.cardValue}>{(totalUsers * 0.65).toFixed(0)}</span>
+          <span className={styles.cardValue}>
+            {(stats?.usersWithSavings ?? 0).toLocaleString()}
+          </span>
         </div>
       </div>
+
 
       <div className={styles.tableSection}>
         {isLoading ? (
