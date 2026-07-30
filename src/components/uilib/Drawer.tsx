@@ -7,10 +7,11 @@ import styles from "../../styles/uilib/Drawer.module.scss";
 interface DrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  position: "left" | "bottom";
+  position: "left" | "bottom" | "right";
   children: React.ReactNode;
   showCloseButton?: boolean;
 }
+
 
 export default function Drawer({
   isOpen,

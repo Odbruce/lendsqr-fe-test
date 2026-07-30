@@ -42,6 +42,22 @@
   transform: translateX(0);
 }
 
+.right {
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100%;
+  transform: translateX(100%);
+
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.rightOpen {
+  transform: translateX(0);
+}
+
 .bottom {
   bottom: 0;
   left: 0;
@@ -55,6 +71,7 @@
 .bottomOpen {
   transform: translateY(0);
 }
+
 
 .closeButton {
   position: absolute;

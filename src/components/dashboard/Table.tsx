@@ -2,30 +2,26 @@
 
 import React, { useState } from "react";
 import Badge from "../uilib/Badge";
+
 import { FilterIcon, MoreVerticalIcon } from "../uilib/Icons";
 import { formatUserDate } from "@/utils/date";
 import { User } from "@/services/api";
-import TableFilter from "./TableFilter";
 import RowActionsPopover from "./RowActionsPopover";
 import styles from "../../styles/dashboard/Table.module.scss";
 
 interface TableProps {
   users: User[];
   onRowClick: (user: User) => void;
-  onFilterApply: (filters: Record<string, string>) => void;
-  onFilterReset: () => void;
   onStatusChange: () => void;
 }
 
 export default function Table({
   users,
   onRowClick,
-  onFilterApply,
-  onFilterReset,
   onStatusChange,
 }: TableProps) {
-  const [activeFilterCol, setActiveFilterCol] = useState<string | null>(null);
   const [activeActionUserId, setActiveActionUserId] = useState<string | null>(null);
+
 
   const columns = [
     { key: "orgName", label: "Organization", hideClass: styles.hideTablet },
@@ -41,10 +37,6 @@ export default function Table({
     setActiveActionUserId(activeActionUserId === userId ? null : userId);
   };
 
-  const handleFilterClick = (e: React.MouseEvent<HTMLButtonElement>, colKey: string) => {
-    e.stopPropagation();
-    setActiveFilterCol(activeFilterCol === colKey ? null : colKey);
-  };
 
   const handleRowClick = (user: User) => {
     onRowClick(user);
@@ -74,74 +66,75 @@ export default function Table({
         <thead>
           <tr>
             {columns.map((col) => (
-              <th key={col.key} className={`${styles.th} ${col.hideClass}`} style={{ position: "relative" }}>
+              <th key={col.key} className={`${styles.th} ${col.hideClass}`}>
                 <div className={styles.thContent}>
                   {col.label}
-                  <button
-                    className={styles.filterBtn}
-                    onClick={(e) => handleFilterClick(e, col.key)}
-                    aria-label={`Filter by ${col.label}`}
-                  >
-                    <FilterIcon size={14} />
-                  </button>
                 </div>
-                {activeFilterCol === col.key && (
-                  <TableFilter
-                    onFilter={onFilterApply}
-                    onReset={onFilterReset}
-                    onClose={() => setActiveFilterCol(null)}
-                  />
-                )}
               </th>
             ))}
             <th className={`${styles.th} ${styles.hideMobile}`}></th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => {
-            const currentStatus = getUserStatus(user);
-            const displayUser = { ...user, status: currentStatus as any };
+          {users.length === 0 ? (
+            <tr>
+              <td colSpan={columns.length + 1} className={styles.emptyStateCell}>
+                <div className={styles.emptyState}>
+                  <div className={styles.emptyIcon}>
+                    <FilterIcon size={32} />
+                  </div>
+                  <h3>No results found</h3>
+                  <p>We couldn't find any users matching your filter criteria.</p>
+                </div>
+              </td>
+            </tr>
+          ) : (
+            users.map((user) => {
+              const currentStatus = getUserStatus(user);
+              const displayUser = { ...user, status: currentStatus as any };
 
-            return (
-              <tr
-                key={user.id}
-                className={styles.tr}
-                onClick={() => handleRowClick(displayUser)}
-              >
-                <td className={`${styles.td} ${styles.hideTablet}`}>{user.orgName}</td>
-                <td className={styles.td}>{user.userName}</td>
-                <td className={`${styles.td} ${styles.hideMobile}`}>{user.email}</td>
-                <td className={`${styles.td} ${styles.hideTablet}`}>{user.phoneNumber}</td>
-                <td className={`${styles.td} ${styles.hideTablet}`}>
-                  {formatUserDate(user.createdAt)}
-                </td>
-                <td className={styles.td}>
-                  <Badge status={currentStatus} />
-                </td>
-                <td className={`${styles.td} ${styles.actionCell} ${styles.hideMobile}`}>
-                  <button
-                    className={styles.actionBtn}
-                    onClick={(e) => handleActionClick(e, user.id)}
-                    aria-label="User actions"
-                  >
-                    <MoreVerticalIcon size={16} />
-                  </button>
+              return (
+                <tr
+                  key={user.id}
+                  className={styles.tr}
+                  onClick={() => handleRowClick(displayUser)}
+                >
+                  <td className={`${styles.td} ${styles.hideTablet}`}>{user.orgName}</td>
+                  <td className={styles.td}>{user.userName}</td>
+                  <td className={`${styles.td} ${styles.hideMobile}`}>{user.email}</td>
+                  <td className={`${styles.td} ${styles.hideTablet}`}>{user.phoneNumber}</td>
+                  <td className={`${styles.td} ${styles.hideTablet}`}>
+                    {formatUserDate(user.createdAt)}
+                  </td>
+                  <td className={styles.td}>
+                    <Badge status={currentStatus} />
+                  </td>
+                  <td className={`${styles.td} ${styles.actionCell} ${styles.hideMobile}`}>
+                    <button
+                      className={styles.actionBtn}
+                      onClick={(e) => handleActionClick(e, user.id)}
+                      aria-label="User actions"
+                    >
+                      <MoreVerticalIcon size={16} />
+                    </button>
 
-                  {activeActionUserId === user.id && (
-                    <RowActionsPopover
-                      userId={user.id}
-                      onClose={() => setActiveActionUserId(null)}
-                      onBlacklist={() => handleBlacklist(user.id)}
-                      onActivate={() => handleActivate(user.id)}
-                    />
-                  )}
-                </td>
-              </tr>
-            );
-          })}
+                    {activeActionUserId === user.id && (
+                      <RowActionsPopover
+                        userId={user.id}
+                        onClose={() => setActiveActionUserId(null)}
+                        onBlacklist={() => handleBlacklist(user.id)}
+                        onActivate={() => handleActivate(user.id)}
+                      />
+                    )}
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
     </div>
   );
+
 }
 
