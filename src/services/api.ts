@@ -58,8 +58,6 @@ export interface FetchUsersResponse {
 }
 
 export interface FetchUsersParams {
-  page: number;
-  limit: number;
   search?: string;
   orgName?: string;
   userName?: string;
@@ -73,8 +71,6 @@ const API_BASE_URL = "https://lendsqr-mock-api-s384.onrender.com";
 
 
 export async function fetchUsers({
-  page,
-  limit,
   search,
   orgName,
   userName,
@@ -85,16 +81,10 @@ export async function fetchUsers({
 }: FetchUsersParams): Promise<FetchUsersResponse> {
   const url = new URL(`${API_BASE_URL}/users`);
   
-
-  url.searchParams.append("_page", page.toString());
-  url.searchParams.append("_limit", limit.toString());
-  
   if (search) {
-
     url.searchParams.append("q", search);
   }
   
-
   if (orgName) {
     url.searchParams.append("orgName", orgName);
   }
@@ -116,7 +106,6 @@ export async function fetchUsers({
   }
 
   if (date) {
-
     url.searchParams.append("createdAt_like", date);
   }
 
@@ -126,10 +115,7 @@ export async function fetchUsers({
   }
 
   const users: User[] = await response.json();
-  
-
-  const totalHeader = response.headers.get("x-total-count");
-  const total = totalHeader ? parseInt(totalHeader, 10) : 500;
+  const total = users.length;
 
   return {
     users,
