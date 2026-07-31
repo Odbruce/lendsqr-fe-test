@@ -11,6 +11,7 @@ import MobileRowDrawer from "@/components/dashboard/MobileRowDrawer";
 import TableControls from "@/components/dashboard/TableControls";
 import FilterDrawer from "@/components/dashboard/FilterDrawer";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import Button from "@/components/uilib/Button";
 import { downloadUsersCSV } from "@/utils/csv";
 import styles from "@/styles/dashboard/Users.module.scss";
 
@@ -39,12 +40,10 @@ function UsersDashboardContent() {
   const status = searchParams.get("status") || undefined;
   const date = searchParams.get("date") || undefined;
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["users", page, limit, search, orgName, userName, email, phoneNumber, status, date],
+  const { data, isLoading, error, isFetching } = useQuery({
+    queryKey: ["users", search, orgName, userName, email, phoneNumber, status, date],
     queryFn: () =>
       fetchUsers({
-        page,
-        limit,
         search,
         orgName,
         userName,
@@ -139,6 +138,11 @@ function UsersDashboardContent() {
 
   const totalUsers = data?.total || 0;
 
+  const paginatedUsers = React.useMemo(() => {
+    if (!data?.users) return [];
+    return data.users.slice((page - 1) * limit, page * limit);
+  }, [data?.users, page, limit]);
+
   return (
     <div className={styles.pageContainer}>
       <DashboardHeader stats={stats} totalUsers={totalUsers} />
@@ -150,24 +154,43 @@ function UsersDashboardContent() {
       />
 
       <div className={styles.tableSection}>
-        {isLoading ? (
-          <SkeletonTable rows={10} cols={6} />
-        ) : (
-          <>
-            <Table
-              users={data?.users || []}
-              onRowClick={handleRowClick}
-              onStatusChange={handleStatusChange}
-            />
-            <Pagination
-              page={page}
-              limit={limit}
-              total={totalUsers}
-              onPageChange={handlePageChange}
-              onLimitChange={handleLimitChange}
-            />
-          </>
-        )}
+        {
+          error
+            ? (
+              <div className={styles.errorState}>
+                <div className={styles.errorIcon}>⚠️</div>
+                <h3>Failed to load users</h3>
+                <p>{
+                  error instanceof Error
+                    ? error.message : "An unexpected error occurred while fetching the user directory."}</p>
+                <Button
+                  onClick={() => queryClient.invalidateQueries({ queryKey: ["users"] })}
+                  variant="primaryOutline"
+                  size="md"
+                  style={{ marginTop: "16px" }}
+                  disabled={isFetching}
+                >
+                  {isFetching ? "Retrying..." : "Retry Connection"}
+                </Button>
+              </div>
+            ) : isLoading ? (
+              <SkeletonTable rows={10} cols={6} />
+            ) : (
+              <>
+                <Table
+                  users={paginatedUsers}
+                  onRowClick={handleRowClick}
+                  onStatusChange={handleStatusChange}
+                />
+                <Pagination
+                  page={page}
+                  limit={limit}
+                  total={totalUsers}
+                  onPageChange={handlePageChange}
+                  onLimitChange={handleLimitChange}
+                />
+              </>
+            )}
       </div>
 
       <FilterDrawer
